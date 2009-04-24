@@ -1,3 +1,4 @@
 .DS_Store
 test/output/*
+test/debug.log
 milton-*.gem
