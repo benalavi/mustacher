@@ -1,1 +1,2 @@
-require 'is_mustacheable'
+require 'milton'
+require 'milton/derivatives/mustacher'

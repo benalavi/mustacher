@@ -8,6 +8,11 @@ end
 require 'flexmock/test_unit'
 require 'redgreen' rescue LoadError
 
+Rails.backtrace_cleaner.remove_silencers!
+Rails.backtrace_cleaner.add_silencer do |line| 
+  (%w( /opt /var lib/active_support lib/active_record vendor/gems vendor/rails )).any? { |dir| line.include?(dir) } 
+end
+
 $: << File.expand_path(File.dirname(__FILE__) + '/..')
 
 load(File.dirname(__FILE__) + '/schema.rb')
@@ -30,9 +35,4 @@ end
 
 def upload(file, type='image/jpg')
   ActionController::TestUploadedFile.new(ActionController::TestCase.fixture_path + file, type)
-end
-
-class Image < ActiveRecord::Base
-  is_uploadable :storage_options => { :root => output_path }
-  is_mustacheable :resizeable => { :sizes => { :small => { :size => '50x50' }, :medium => { :size => '100x100' } } }
 end
